@@ -31,6 +31,7 @@ URL: https://github.com/Huddle/Resemble.js
 
 		var ignoreAntialiasing = false;
 		var ignoreColors = false;
+		var aScale = 1; // between 0.0 and 1.0. Affects Matched pixel alpha.
 
 		function triggerDataUpdate(){
 			var len = updateCallbackArray.length;
@@ -259,7 +260,7 @@ URL: https://github.com/Huddle/Resemble.js
 			px[offset] = data.r; //r
 			px[offset + 1] = data.g; //g
 			px[offset + 2] = data.b; //b
-			px[offset + 3] = data.a; //a
+			px[offset + 3] = data.a * aScale; //a
 		}
 
 		function copyGrayScalePixel(px, offset, data){
@@ -532,6 +533,10 @@ URL: https://github.com/Huddle/Resemble.js
 					wrapper();
 
 					return getCompareApi(wrapper);
+				},
+				transparencyLevel: function (scale) {
+					aScale = scale;
+					return self;
 				}
 			};
 
