@@ -22,6 +22,12 @@ URL: https://github.com/Huddle/Resemble.js
 			minBrightness: 16,
 			maxBrightness: 240
 		};
+		var errPixel = { // Color for Error Pixels. Between 0 and 255.
+			red: 255,
+			green: 0,
+			blue: 255,
+			alpha: 255
+		};
 
 		var ignoreAntialiasing = false;
 		var ignoreColors = false;
@@ -243,10 +249,10 @@ URL: https://github.com/Huddle/Resemble.js
 		}
 
 		function errorPixel(px, offset){
-			px[offset] = 255; //r
-			px[offset + 1] = 0; //g
-			px[offset + 2] = 255; //b
-			px[offset + 3] = 255; //a
+			px[offset] = errPixel.red; //r
+			px[offset + 1] = errPixel.green; //g
+			px[offset + 2] = errPixel.blue; //b
+			px[offset + 3] = errPixel.alpha; //a
 		}
 
 		function copyPixel(px, offset, data){
@@ -533,6 +539,14 @@ URL: https://github.com/Huddle/Resemble.js
 		}
 
 		return {
+			setErrorPixel: function(data){
+				// Use default if not specified.
+				for (var key in data) {
+					errPixel[key] = data[key] === undefined ?
+						errPixel[key] : data[key];
+				}
+				return this;
+			},
 			onComplete: function( callback ){
 				updateCallbackArray.push(callback);
 				loadImageData(fileData, function(imageData, width, height){
